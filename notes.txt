@@ -1,0 +1,29 @@
+To start desktop client consul
+> consul agent -config-file desk.consul.json
+
+To start server consul
+> consul agent -dev -bind 172.20.20.31 -client 0.0.0.0 &
+
+To specify the IP address of each nodes (lb,web1-3)
+> ip=$(ifconfig enp0s8 | grep 'inet addr' | awk '{ print substr($2,6)}')
+
+To run consul on lb and web 1-3
+> consul agent -advertise $ip -config-file /vagrant/common.consul.json &
+
+To run web(1..3) consul with web service
+> consul agent -advertise $ip -config-file /vagrant/common.consul.json -config-file /vagrant/web.service.json &
+
+To test the config of consul
+> consul configtest -config-file <path-of-your-config>
+
+To echo the exit code, this is useful for automation
+> echo $?
+
+To run consul on lb with service
+> consul agent -advertise $ip -config-file /vagrant/common.consul.json -config-file /vagrant/lb.service.json &
+
+To execute a command using consul on one of your nodes
+> consul exec <name-of-your-node> <command>
+
+To put a service into a maintanance mode
+> consul maint -http-addr=<IP of your service> -enable

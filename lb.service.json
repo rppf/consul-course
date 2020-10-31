@@ -1,0 +1,10 @@
+{
+    "service": {
+        "name": "loadbalancer",
+        "port": 80,
+        "check": {
+            "http": "http://localhost",
+            "interval": "10s"
+        }
+    }
+}
